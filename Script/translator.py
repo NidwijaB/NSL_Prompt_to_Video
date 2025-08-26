@@ -3,16 +3,13 @@ import sys
 import json
 import string
 from moviepy.editor import VideoFileClip
-from tkinter import messagebox
 from player import play_clips_with_subtitles
 
 def resource_path(relative_path):
     try:
-        # PyInstaller extracts files into a temporary folder
-        base_path = sys._MEIPASS
+        base_path = sys._MEIPASS  # PyInstaller extracts to temp folder
     except Exception:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
 
 
@@ -70,6 +67,7 @@ def clean_text(text: str) -> list[str]:
 
 def load_clips(words, folder=CLIP_FOLDER):
     clips = []
+    missing = []
     exts = [".m4v", ".wmv", ".mp4"]
 
     for word in words:
@@ -83,17 +81,19 @@ def load_clips(words, folder=CLIP_FOLDER):
 
             try:
                 clip = VideoFileClip(path).without_audio()
-                print(f"Loaded clip: {path}\n")
+                print(f"✅ Loaded clip: {path}\n")
                 break
             except OSError as e:
-                print(f"Failed loading {path}: {e}")
+                print(f"⚠️ Failed loading {path}: {e}")
 
         if clip:
-            clips.append(clip)
+            clips.append((word, clip))
         else:
-            print(f"Clip not found for '{word}' → '{key}'\n")
+            print(f"❌ Clip not found for '{word}' → '{key}'\n")
+            missing.append(word)
 
-    return clips
+    return clips, missing
+
 
 def translate_text_to_sign(text: str):
     words = clean_text(text)
@@ -107,11 +107,9 @@ def translate_text_to_sign(text: str):
             merged.append(words[i])
             i += 1
 
-    clips = load_clips(merged)
-    pairs = list(zip(merged, clips))
+    clips, missing = load_clips(merged)
 
-    if pairs:
-        play_clips_with_subtitles(pairs, window_size=(800, 450))
-        return True  # success
-    else:
-        return False  # not found
+    if clips:
+        play_clips_with_subtitles(clips, window_size=(800, 450))
+
+    return bool(clips), missing
