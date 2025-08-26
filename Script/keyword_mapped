@@ -1,0 +1,23 @@
+{
+  "afno": ["mero"],
+  "basnu": ["bas", "basa", "baschan", "baschu", "basdinu", "basney", "basnu huncha"],
+  "bichar garnu": ["bichar gara", "bichar gar", "bichar gardai", "bichar garney", "bichar garchu", "bichar garnu huncha"],
+  "cha": ["chha", "huncha"],
+  "channu": ["chanchu", "channuhuncha"],
+  "chinnu": ["chinchu", "chindina", "chinchas", "chinnu huncha"],
+  "chito garnu": ["chito gara", "chito garr", "chito garchu", "chito garney", "chito garnu", "chito garnu huncha"],
+  "garchu": ["gara", "gardeu", "gardey", "garr", "gardinu", "garnu huncha", "garney"],
+  "ghumnu": ["ghumdai", "ghumna", "ghumdey", "ghumney", "ghumdiney", "ghumna ja", "ghumnu huncha"],
+  "hajur": ["hajur", "tapai"],
+  "hami": ["hami", "hami sabjana", "sabjana"],
+  "janu": ["gaye", "jadai garchu", "janchu", "janey ho", "janu", "janu huncha", "jau"],
+  "kaam garnu": ["kaam garauney", "kaam gardai", "kaam garera", "kaam garchu", "kaam garr", "kaam garnu", "kaam garnu huncha"],
+  "Khaana": ["khana", "khanchu", "khancham", "khanu huncha", "khaidinchu"],
+  "mann naparaunu": ["mann pardaina", "mann pardina", "mann naparey", "mann naparaunu"],
+  "mannparcha": ["mann parcha", "mann parnu", "mann parney", "mannparauchu"],
+  "pani": ["paani"],
+  "samjhinu": ["samjhina", "samjhinchu", "samjhidai", "samjhinu", "samjhinu huncha"],
+  "timi": ["timi", "usle"],
+  "uni": ["uhaharu", "uniharu"],
+  "uthnu": ["uthcha", "uthchas", "uthdai", "uthdey", "uthdinu huncha", "uthney", "uthnu huncha", "uthnuhuncha"]
+}
