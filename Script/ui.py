@@ -6,12 +6,12 @@ from PIL import Image, ImageTk  # pip install pillow
 class SignTranslatorApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Text to Sign Language Translator")
-        self.geometry("450x300")
+        self.title("Nepali Sign Language: Text to Sign Translator")
+        self.geometry("1250x650")
         self.configure(bg="#F0E8E8")
 
-        tk.Label(self, text=" Sign Language Translator",
-                 font=("Arial", 16, "bold"),
+        tk.Label(self, text="Nepali Sign Language: Text to Sign Translator",
+                 font=("Helvetica", 32, "bold"),
                  bg="#F0E8E8").pack(pady=10)
 
         self.entry = tk.Entry(self, width=40,
