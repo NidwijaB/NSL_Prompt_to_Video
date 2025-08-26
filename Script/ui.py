@@ -1,85 +1,121 @@
-import tkinter as tk
+import ttkbootstrap as tb
+from ttkbootstrap.constants import *
 from tkinter import messagebox
 from translator import translate_text_to_sign
-from PIL import Image, ImageTk  # pip install pillow
+from PIL import Image, ImageTk
 
-class SignTranslatorApp(tk.Tk):
+class SignTranslatorApp(tb.Window):
     def __init__(self):
-        super().__init__()
+        super().__init__(themename="superhero")  # Try "morph" for softer dark mode
         self.title("Nepali Sign Language: Text to Sign Translator")
         self.geometry("1250x650")
-        self.configure(bg="#F0E8E8")
+        self.minsize(800, 500)
 
-        tk.Label(self, text="Nepali Sign Language: Text to Sign Translator",
-                 font=("Helvetica", 32, "bold"),
-                 bg="#F0E8E8").pack(pady=10)
+        # Main container
+        container = tb.Frame(self, padding=20)
+        container.grid(row=0, column=0, sticky="nsew")
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
 
-        self.entry = tk.Entry(self, width=40,
-                              font=("Open Sans", 12))
-        self.entry.pack(pady=5)
-        self.entry.bind("<Return>", lambda event: self.on_translate())
+        # Header
+        tb.Label(
+            container,
+            text="Nepali Sign Language ✋ Text to Sign Translator",
+            font=("Segoe UI Semibold", 28),
+            bootstyle=INFO
+        ).grid(row=0, column=0, columnspan=3, pady=(0, 10), sticky="ew")
 
-        btn_frame = tk.Frame(self, bg="#f4f4f2")
-        btn_frame.pack(pady=10)
+        # Text entry
+        self.entry = tb.Entry(container, width=40, font=("Segoe UI", 13))
+        self.entry.grid(row=1, column=0, columnspan=3, pady=5, sticky="ew")
+        self.entry.bind("<Return>", lambda e: self.on_translate())
 
-        # Load icons (replace paths with your actual icon file paths)
-        self.icon_translate = tk.PhotoImage(file="icons/translate.png")
-        self.icon_clear = tk.PhotoImage(file="icons/clear.png")
-        self.icon_info = tk.PhotoImage(file="icons/info.png")
-        # Load and resize icons to a consistent size (e.g., 20x20 pixels)
+        # Icons
         self.icon_translate = ImageTk.PhotoImage(Image.open("icons/translate.png").resize((20, 20)))
         self.icon_clear = ImageTk.PhotoImage(Image.open("icons/clear.png").resize((20, 20)))
         self.icon_info = ImageTk.PhotoImage(Image.open("icons/info.png").resize((20, 20)))
 
-        tk.Button(btn_frame, text=" Translate", image=self.icon_translate,
-                  compound="left", font=("Open Sans", 12), bg="#4D1375",
-                  fg="#F0E8E8", command=self.on_translate)\
-          .grid(row=0, column=0, padx=5)
+        # Buttons
+        tb.Button(container, text=" Translate", image=self.icon_translate,
+                  compound="left", bootstyle=SUCCESS, command=self.on_translate)\
+          .grid(row=2, column=0, padx=5, pady=10, sticky="ew")
 
-        tk.Button(btn_frame, text=" Clear", image=self.icon_clear,
-                  compound="left", font=("Arial", 12), bg="#FD4516",
-                  fg="#F0E8E8", command=self.clear_text)\
-          .grid(row=0, column=1, padx=5)
+        tb.Button(container, text=" Clear", image=self.icon_clear,
+                  compound="left", bootstyle=DANGER, command=self.clear_text)\
+          .grid(row=2, column=1, padx=5, pady=10, sticky="ew")
 
-        tk.Button(btn_frame, text=" Info", image=self.icon_info,
-                  compound="left", font=("Arial", 12), bg="#1686FD",
-                  fg="#F0E8E8", command=self.toggle_info)\
-          .grid(row=0, column=2, padx=5)
+        tb.Button(container, text=" Info", image=self.icon_info,
+                  compound="left", bootstyle=WARNING, command=self.toggle_info)\
+          .grid(row=2, column=2, padx=5, pady=10, sticky="ew")
 
-        self.status = tk.Label(self, text="",
-                               font=("Open Sans", 12),
-                               bg="#F0E8E8")
-        self.status.pack(pady=10)
+        # Persistent status/history label
+        self.status = tb.Label(
+            container,
+            text="",
+            font=("Segoe UI", 12),
+            bootstyle=PRIMARY,
+            padding=8,
+            anchor="w",
+            justify="left"
+        )
+        self.status.grid(row=3, column=0, columnspan=3, pady=10, sticky="ew")
 
-        # Collapsible info label — starts hidden
+        # Collapsible info
         self.info_visible = False
-        self.info_label = tk.Label(self, text="",
-                                   font=("Open Sans", 11),
-                                   bg="#F0E8E8", fg="#333")
+        self.info_label = tb.Label(
+            container,
+            text="",
+            font=("Segoe UI", 12),
+            wraplength=500,
+            justify="center",
+            bootstyle=INFO,
+            padding=10
+        )
+
+        # Responsive columns
+        for i in range(3):
+            container.columnconfigure(i, weight=1)
 
     def on_translate(self):
         txt = self.entry.get().strip()
+
+        # Empty prompt
         if not txt:
-            messagebox.showwarning("Warning", "Please enter some text.")
+            messagebox.showwarning("⚠️ Oops!", "Please enter some text.")
+            self.append_status("⚠️ No prompt entered — please type something above.", WARNING)
             return
-        translate_text_to_sign(txt)
+
+        # One call only
+        ok = translate_text_to_sign(txt)
+        if not ok:
+            messagebox.showwarning("⚠️ Not found", f"The prompt '{txt}' could not be translated.")
+            self.append_status(f"⚠️ Prompt not found: '{txt}'", DANGER)
+        else:
+            self.append_status(f"✨ Translated: {txt}", PRIMARY)
+
+    def append_status(self, message, style):
+        """Append message to status label with given style."""
+        prev_text = self.status.cget("text")
+        if prev_text:
+            new_text = prev_text + "\n" + message
+        else:
+            new_text = message
+        self.status.config(text=new_text, bootstyle=style)
 
     def clear_text(self):
-        self.entry.delete(0, tk.END)
-        self.status.config(text="")
-        self.info_label.pack_forget()
+        self.entry.delete(0, "end")
+        self.status.config(text="", bootstyle=PRIMARY)
+        self.info_label.grid_remove()
         self.info_visible = False
 
     def toggle_info(self):
         if self.info_visible:
-            # Hide info
-            self.info_label.pack_forget()
+            self.info_label.grid_remove()
             self.info_visible = False
         else:
-            # Show info
-            creators = "Created by:\n- Alice Johnson\n- Bob Smith\n- Charlie Lee"
+            creators = "👩‍💻 Created by:\n- Nidwija Bhatta \n- Anjesh Ojha \n- Bishow Raj Pangeni \n- Prabin Dahal \n *_*_*_*_*_*_*_*_*_*_*_*_*_*_* \n MSCSK BATCH 081 GROUP A"
             self.info_label.config(text=creators)
-            self.info_label.pack(pady=5)
+            self.info_label.grid(row=4, column=0, columnspan=3, pady=5, sticky="nsew")
             self.info_visible = True
 
 

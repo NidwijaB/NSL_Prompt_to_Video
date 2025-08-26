@@ -95,11 +95,8 @@ def load_clips(words, folder=CLIP_FOLDER):
 
     return clips
 
-
 def translate_text_to_sign(text: str):
     words = clean_text(text)
-
-    # Merge two-word phrases if defined in synonyms
     merged, i = [], 0
     while i < len(words):
         two = f"{words[i]} {words[i+1]}" if i + 1 < len(words) else None
@@ -115,5 +112,6 @@ def translate_text_to_sign(text: str):
 
     if pairs:
         play_clips_with_subtitles(pairs, window_size=(800, 450))
+        return True  # success
     else:
-        messagebox.showerror("Error", "No matching sign clips found.")
+        return False  # not found
