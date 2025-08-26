@@ -6,11 +6,9 @@ from moviepy.editor import VideoFileClip
 from tkinter import messagebox
 from player import play_clips_with_subtitles
 
-# Helper to make resources work both in IDE and in PyInstaller exe
 def resource_path(relative_path):
-    """ Get absolute path to resource (works for dev and for PyInstaller exe) """
     try:
-        # PyInstaller extracts files into a temporary folder _MEIPASS
+        # PyInstaller extracts files into a temporary folder
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
@@ -18,7 +16,6 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-# Use relative paths so PyInstaller can bundle them
 CLIP_FOLDER = resource_path("data")
 SYN_FILE    = resource_path("synonyms.json")
 
