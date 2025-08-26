@@ -1,0 +1,54 @@
+NSL_Prompt_to_Video — Setup Guide
+=================================
+
+1) Open the Project Folder
+--------------------------
+- Locate where you cloned the repository.
+  Example:
+    C:\Users\user\Documents\PYTHONPROJECTS\NSL_Prompt_to_Video
+- Open Command Prompt (CMD).
+- Navigate to the project folder:
+    cd C:\Users\user\Documents\PYTHONPROJECTS\NSL_Prompt_to_Video
+
+2) Create a Virtual Environment
+--------------------------------
+- Run:
+    python -m virtualenv venvnsl
+- If you get an error saying 'virtualenv' is not found, see Section 4 below.
+
+3) Activate the Virtual Environment & Install Requirements
+-----------------------------------------------------------
+- Activate it (Windows):
+    venvnsl\Scripts\activate
+- Install all dependencies:
+    pip install -r install/requirements.txt
+
+4) If 'virtualenv' is Missing
+------------------------------
+- Find where Python is installed (example path):
+    C:\Users\user\AppData\Local\Programs\Python\Python312\Scripts
+- In CMD:
+    cd C:\Users\user\AppData\Local\Programs\Python\Python312\Scripts
+    pip install virtualenv
+- Then return to Step 2 above.
+
+5) Using PyCharm (Optional)
+---------------------------
+- Install PyCharm Community Edition.
+- Open the project folder.
+- Go to: File → Settings → Project → Python Interpreter.
+- Select the interpreter from:
+    <project_folder>\venvnsl\Scripts\python.exe
+
+6) Running from the Command Line
+---------------------------------
+- Navigate to the repo:
+    cd C:\Users\user\Documents\PYTHONPROJECTS\NSL_Prompt_to_Video
+- Activate the virtual environment:
+    venvnsl\Scripts\activate
+- Run the main script:
+    Script\main.py
+
+Tips:
+-----
+- Every new CMD session requires you to activate the virtual environment again before running the script.
