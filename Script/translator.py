@@ -7,7 +7,7 @@ from player import play_clips_with_subtitles
 
 def resource_path(relative_path):
     try:
-        base_path = sys._MEIPASS  # PyInstaller extracts to temp folder
+        base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
@@ -81,15 +81,15 @@ def load_clips(words, folder=CLIP_FOLDER):
 
             try:
                 clip = VideoFileClip(path).without_audio()
-                print(f"✅ Loaded clip: {path}\n")
+                print(f" Loaded clip: {path}\n")
                 break
             except OSError as e:
-                print(f"⚠️ Failed loading {path}: {e}")
+                print(f" Failed loading {path}: {e}")
 
         if clip:
             clips.append((word, clip))
         else:
-            print(f"❌ Clip not found for '{word}' → '{key}'\n")
+            print(f" Clip not found for '{word}' → '{key}'\n")
             missing.append(word)
 
     return clips, missing

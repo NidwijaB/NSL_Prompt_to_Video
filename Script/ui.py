@@ -7,15 +7,15 @@ import os, sys
 
 
 def resource_path(relative_path):
-    """Get absolute path to resource (works for dev and for PyInstaller exe)."""
-    if hasattr(sys, "_MEIPASS"):  # PyInstaller bundles files into temp folder
+    """Get absolute path to resource."""
+    if hasattr(sys, "_MEIPASS"):  # for PyInstaller so that it bundles files into temp folder
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
 
 class SignTranslatorApp(tb.Window):
     def __init__(self):
-        super().__init__(themename="superhero")
+        super().__init__(themename="darkly")
         self.title(" Nepali Sign Language: Text to Sign Translator 🇳🇵")
         self.geometry("1250x650")
         self.minsize(800, 500)
@@ -29,7 +29,7 @@ class SignTranslatorApp(tb.Window):
         # Header
         tb.Label(
             container,
-            text="Nepali Sign Language ✋ Text to Sign Translator 🇳🇵",
+            text="Nepali Sign Language ✋ Text to Sign Translator",
             font=("Segoe UI Semibold", 28),
             bootstyle=INFO
         ).grid(row=0, column=0, columnspan=3, pady=(0, 10), sticky="ew")
@@ -126,7 +126,7 @@ class SignTranslatorApp(tb.Window):
             self.info_visible = False
         else:
             creators = (
-                "👩‍💻 Created by:\n"
+                "🎇Created by:\n"
                 "- Nidwija Bhatta \n"
                 "- Anjesh Ojha \n"
                 "- Bishow Raj Pangeni \n"
